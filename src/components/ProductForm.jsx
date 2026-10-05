@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import { createProduct, updateProduct, errorMessage } from '../api.js';
 
 const empty = { product_name: '', description: '', price: '', quantity: '' };
@@ -31,28 +32,25 @@ export default function ProductForm({ product, onSaved, onCancel }) {
 
   return (
     <div className="modal-backdrop" onClick={onCancel}>
-      <div className="card modal" onClick={(e) => e.stopPropagation()}>
-        <h2>{editing ? 'Edit product' : 'Add product'}</h2>
+      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="product-form-title" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-heading"><div><span className="section-kicker">PRODUCT DETAILS</span><h2 id="product-form-title">{editing ? 'Edit product' : 'Add a product'}</h2><p>{editing ? 'Update information for this catalog item.' : 'Add a new item to your inventory.'}</p></div><button type="button" className="icon-button" onClick={onCancel} title="Close" aria-label="Close"><X size={19} /></button></div>
         {error && <div className="alert error">{error}</div>}
-        <form onSubmit={submit}>
+        <form className="product-form" onSubmit={submit}>
           <label>Product name
-            <input value={form.product_name} onChange={set('product_name')} maxLength={100} required autoFocus />
+            <input value={form.product_name} onChange={set('product_name')} maxLength={100} required autoFocus placeholder="e.g. Ceramic pour-over set" />
           </label>
-          <label>Description
-            <textarea rows={3} value={form.description ?? ''} onChange={set('description')} />
+          <label>Description <span className="optional-label">OPTIONAL</span>
+            <textarea rows={3} value={form.description ?? ''} onChange={set('description')} placeholder="Add a short product description" />
           </label>
           <div className="row">
-            <label>Price
-              <input type="number" min="0" step="0.01" value={form.price} onChange={set('price')} required />
+            <label>Unit price
+              <span className="input-prefix"><span>₱</span><input type="number" min="0" step="0.01" value={form.price} onChange={set('price')} required placeholder="0.00" /></span>
             </label>
             <label>Quantity
-              <input type="number" min="0" step="1" value={form.quantity} onChange={set('quantity')} required />
+              <input type="number" min="0" step="1" value={form.quantity} onChange={set('quantity')} required placeholder="0" />
             </label>
           </div>
-          <div className="actions">
-            <button type="button" className="secondary" onClick={onCancel}>Cancel</button>
-            <button disabled={busy}>{busy ? 'Saving…' : 'Save'}</button>
-          </div>
+          <div className="modal-actions"><button type="button" className="secondary-button" onClick={onCancel}>Cancel</button><button className="primary-button" disabled={busy}>{busy ? 'Saving…' : editing ? 'Save changes' : 'Add to catalog'}</button></div>
         </form>
       </div>
     </div>
