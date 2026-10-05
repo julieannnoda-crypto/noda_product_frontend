@@ -187,6 +187,7 @@ td { height: 65px; padding: 10px 14px; border-bottom: 1px solid #edf0eb; color: 
 .modal-heading p { margin: 0; color: var(--muted); font-size: 12px; }
 .modal-heading .icon-button { flex: 0 0 38px; }
 .product-form { display: flex; flex-direction: column; gap: 16px; }
+.field-label-row { display: flex; align-items: center; justify-content: space-between; }
 .product-form input { min-height: 42px; }
 .product-form textarea { min-height: 84px; padding: 10px 12px; resize: vertical; }
 .product-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
@@ -197,6 +198,7 @@ td { height: 65px; padding: 10px 14px; border-bottom: 1px solid #edf0eb; color: 
 .modal-actions { margin-top: 5px; padding-top: 17px; display: flex; justify-content: flex-end; gap: 9px; border-top: 1px solid #edf0eb; }
 
 .center { padding: 25px; text-align: center; color: var(--muted); }
+.boot-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; gap: 10px; color: #758078; font-size: 13px; }
 @keyframes rise-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes modal-in { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }

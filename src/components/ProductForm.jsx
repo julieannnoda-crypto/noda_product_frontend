@@ -39,7 +39,7 @@ export default function ProductForm({ product, onSaved, onCancel }) {
           <label>Product name
             <input value={form.product_name} onChange={set('product_name')} maxLength={100} required autoFocus placeholder="e.g. Ceramic pour-over set" />
           </label>
-          <label>Description <span className="optional-label">OPTIONAL</span>
+          <label><span className="field-label-row"><span>Description</span><span className="optional-label">OPTIONAL</span></span>
             <textarea rows={3} value={form.description ?? ''} onChange={set('description')} placeholder="Add a short product description" />
           </label>
           <div className="row">

@@ -25,7 +25,7 @@ export default function App() {
     setUser(null);
   };
 
-  if (checking) return <p className="center">Loading…</p>;
+  if (checking) return <main className="boot-screen"><span className="spinner" /> Loading workspace…</main>;
 
   return user
     ? <ProductList user={user} onLogout={handleLogout} />

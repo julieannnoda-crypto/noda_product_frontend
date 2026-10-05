@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Archive, Boxes, Check, CircleAlert, LogOut, Package, Pencil, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { getProducts, deleteProduct, errorMessage } from '../api.js';
 import ProductForm from './ProductForm.jsx';
@@ -14,6 +14,7 @@ export default function ProductList({ user, onLogout }) {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [formFor, setFormFor] = useState(null); // null = closed, {} = add, product = edit
+  const searchInput = useRef(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -28,6 +29,17 @@ export default function ProductList({ user, onLogout }) {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    const focusSearch = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        searchInput.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', focusSearch);
+    return () => window.removeEventListener('keydown', focusSearch);
+  }, []);
 
   const handleDelete = async (p) => {
     if (!window.confirm(`Delete "${p.product_name}"?`)) return;
@@ -94,7 +106,7 @@ export default function ProductList({ user, onLogout }) {
         <section className="catalog-section">
           <div className="catalog-heading"><div><div className="section-kicker">STOCKROOM</div><h2>All products <span className="result-count">{loading ? '' : products.length}</span></h2></div><button className="refresh-button" onClick={load} disabled={loading} title="Refresh inventory" aria-label="Refresh inventory"><RefreshCw size={16} className={loading ? 'spin' : ''} /></button></div>
           <div className="catalog-tools">
-            <label className="search-field"><Search size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products" /><kbd>⌘ K</kbd></label>
+            <label className="search-field"><Search size={17} /><input ref={searchInput} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products" /><kbd>⌘ K</kbd></label>
             <div className="filter-group" aria-label="Filter products">
               <button className={filter === 'all' ? 'filter-button active' : 'filter-button'} onClick={() => setFilter('all')}>All items</button>
               <button className={filter === 'low' ? 'filter-button active' : 'filter-button'} onClick={() => setFilter('low')}><span className="filter-dot" />Low stock</button>
